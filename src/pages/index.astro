@@ -7,6 +7,7 @@ const { name, title, summary, experience, links } = profile;
 
 // Use the first 4 projects from projects.json for the home page
 const featuredProjects = projects.slice(0, 4);
+const turnstileSiteKey = Astro.locals.runtime.env.TURNSTILE_SITE_KEY;
 ---
 
 <Layout title={`${name} | ${title}`}>
@@ -149,22 +150,30 @@ const featuredProjects = projects.slice(0, 4);
 					</div>
 				</div>
 
-				<form action="/api/contact" method="POST" class="bg-white/10 backdrop-blur-md rounded-3xl p-8 space-y-6 border border-white/10">
+				<form id="contact-form" action="/api/contact" method="POST" class="bg-white/10 backdrop-blur-md rounded-3xl p-8 space-y-6 border border-white/10">
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 						<div>
 							<label for="name" class="block text-xs font-bold text-forest-200 uppercase tracking-widest mb-2">Name</label>
-							<input type="text" id="name" name="name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-forest-400 transition-colors" placeholder="Jane Doe" />
+							<input type="text" id="name" name="name" required maxlength="120" autocomplete="name" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-forest-400 transition-colors" placeholder="Jane Doe" />
 						</div>
 						<div>
 							<label for="email" class="block text-xs font-bold text-forest-200 uppercase tracking-widest mb-2">Email</label>
-							<input type="email" id="email" name="email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-forest-400 transition-colors" placeholder="jane@example.com" />
+							<input type="email" id="email" name="email" required maxlength="254" autocomplete="email" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-forest-400 transition-colors" placeholder="jane@example.com" />
 						</div>
 					</div>
 					<div>
 						<label for="message" class="block text-xs font-bold text-forest-200 uppercase tracking-widest mb-2">Message</label>
-						<textarea id="message" name="message" rows="4" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-forest-400 transition-colors" placeholder="What are we building?"></textarea>
+						<textarea id="message" name="message" rows="4" required maxlength="4000" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-forest-400 transition-colors" placeholder="What are we building?"></textarea>
 					</div>
-					<button type="submit" class="group w-full px-8 py-5 bg-white text-forest-900 rounded-xl font-bold text-lg hover:bg-forest-50 transition-all flex items-center justify-center gap-2">
+					{turnstileSiteKey ? (
+						<div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="dark"></div>
+					) : (
+						<p class="rounded-xl border border-amber-300/40 bg-amber-300/10 px-4 py-3 text-sm font-semibold text-amber-100">
+							Contact verification is not configured.
+						</p>
+					)}
+					<p id="contact-form-status" class="min-h-6 text-sm font-semibold text-forest-100" aria-live="polite"></p>
+					<button type="submit" disabled={!turnstileSiteKey} class="group w-full px-8 py-5 bg-white text-forest-900 rounded-xl font-bold text-lg hover:bg-forest-50 transition-all flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-60">
 						Send Message
 						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
 					</button>
@@ -172,4 +181,47 @@ const featuredProjects = projects.slice(0, 4);
 			</div>
 		</div>
 	</section>
+	{turnstileSiteKey && (
+		<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+	)}
+	<script>
+		const form = document.querySelector<HTMLFormElement>('#contact-form');
+		const status = document.querySelector<HTMLParagraphElement>('#contact-form-status');
+		const submitButton = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+		form?.addEventListener('submit', async (event) => {
+			event.preventDefault();
+
+			if (!status || !submitButton) {
+				form.submit();
+				return;
+			}
+
+			status.textContent = 'Sending...';
+			submitButton.disabled = true;
+
+			try {
+				const response = await fetch(form.action, {
+					method: 'POST',
+					headers: {
+						accept: 'application/json',
+						'x-requested-with': 'fetch',
+					},
+					body: new FormData(form),
+				});
+				const result = await response.json() as { message?: string };
+
+				status.textContent = result.message || 'Thanks, your message has been sent.';
+
+				if (response.ok) {
+					form.reset();
+				}
+			} catch {
+				status.textContent = 'Something went wrong sending your message. Please try again.';
+			} finally {
+				submitButton.disabled = false;
+				window.turnstile?.reset();
+			}
+		});
+	</script>
 </Layout>
