@@ -32,9 +32,7 @@ const { post } = Astro.props;
 				))}
 			</div>
 
-			<div class="rich-content border-t border-slate-100 pt-12">
-				<p>{post.content}</p>
-			</div>
+			<article class="rich-content border-t border-slate-100 pt-12" set:html={post.content} />
 		</div>
 	</section>
 </Layout>
