@@ -1,0 +1,22 @@
+{
+  "name": "tested-trappist",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "postbuild": "cp .assetsignore dist/.assetsignore",
+    "deploy": "pnpm build && pnpm exec wrangler deploy",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^12.6.13",
+    "@tailwindcss/vite": "4",
+    "astro": "^5.18.1",
+    "tailwindcss": "4"
+  }
+}

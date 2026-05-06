@@ -1,0 +1,106 @@
+{
+  "name": "Daniel Workman",
+  "title": "Full Stack Engineer",
+  "location": "Sydney, Australia",
+  "links": {
+    "linkedin": "https://www.linkedin.com/in/danielworkman1/",
+    "github": "https://github.com/danielworkman",
+    "npm": "https://www.npmjs.com/~danielworkman"
+  },
+  "summary": "Full stack software engineer with 5+ years of experience who codes for work and for fun. I learnt the fundamentals before AI tools took off, so I know when to trust them and when to write it myself. In my current role I've developed a structured Claude Code workflow: detailed markdown specs, CLI execution, custom QA, and manual review. It's the kind of process thinking I bring to everything I build.",
+  "experience": [
+    {
+      "company": "The ChurchCo",
+      "location": "Sydney",
+      "role": "Full Stack Engineer",
+      "period": "Nov 2025 — Apr 2026",
+      "description": "Delivering performant, extensible, and secure features for the web application and API serving 4,500+ churches. Trusted to make independent technical and architectural decisions on features I owned, from scoping through to deployment.",
+      "tech": {
+        "frontend": ["Next.js", "React", "client/server/dynamic routing"],
+        "backend": ["Node.js", "Koa", "Sequelize", "PostgreSQL"],
+        "infrastructure": ["Vercel", "Git/GitHub"],
+        "quality": ["Manual review", "AI-assisted review (Copilot, custom Claude skills)"],
+        "security": ["JWT-based route gating", "Account-scoped authorisation"]
+      },
+      "projects": [
+        {
+          "title": "Google Analytics Dashboard",
+          "description": "Built a new insights dashboard giving customers at-a-glance access to key metrics via horizontal bar, line, and pie charts. Designed a flexible React hook accepting arbitrary combinations of dimensions, metrics, and dimension filters."
+        },
+        {
+          "title": "Bulk Actions",
+          "description": "Designed and shipped a reusable bulk-selection system (Asana-style cmd+click multi-select) significantly reducing time-on-task for editors. Built a configurable React hook and a selection-aware card component."
+        },
+        {
+          "title": "User Activity Log",
+          "description": "Shipped a transparency feature letting account owners audit actions taken by admins. Placed the component inside an accordion to defer data fetching. Built a new API route and service querying Revisions via Sequelize."
+        },
+        {
+          "title": "iMessage Link Preview Fix",
+          "description": "Diagnosed and fixed a cross-system bug where thumbnails failed to render in iMessage due to missing MIME types on S3. Set up Cloudflare Tunnel for debugging and implemented a fix for correct MIME types."
+        }
+      ]
+    },
+    {
+      "company": "Squiz",
+      "location": "Sydney",
+      "role": "Full Stack Engineer",
+      "period": "Mar 2022 — Nov 2025",
+      "description": "Built websites and web applications for enterprise and government clients using Squiz's proprietary CMS (Matrix) and developer tooling.",
+      "tech": {
+        "frontend": ["React", "Redux", "TypeScript", "MUI"],
+        "backend": ["Node.js", "CSV ingestion", "API integration"],
+        "platform": ["Squiz Matrix CMS", "Squiz Data Store (NoSQL)", "Funnelback search"],
+        "cicd": ["GitLab pipelines"]
+      },
+      "projects": [
+        {
+          "title": "React App Performance Optimisation",
+          "description": "Reduced load times from 17+ seconds to under 2 seconds. Diagnosed root causes, migrated data access, and fixed JWT authentication handling."
+        },
+        {
+          "title": "Legacy Search Rebuild",
+          "description": "Rebuilt an enterprise search page into a modular TypeScript React application. Designed a process to generate a structured XML feed indexed by Funnelback."
+        }
+      ]
+    },
+    {
+      "company": "COG Branding",
+      "location": "Sydney",
+      "role": "Junior Full Stack Engineer",
+      "period": "Oct 2020 — Mar 2022",
+      "description": "Engineered bespoke client websites in a fast-paced agency, using JavaScript and PHP to build custom front-end interactions and back-end functionality aligned to design requirements."
+    },
+    {
+      "company": "COG Branding",
+      "location": "Sydney",
+      "role": "Digital Marketing & Digital Producer",
+      "period": "Oct 2017 — OCt 2020",
+      "description": "Delivered digital marketing campaigns and managed end-to-end web production for SME clients across diverse industries in a fast-paced branding agency."
+    }
+  ],
+  "education": [
+    {
+      "school": "Coder Academy, Sydney",
+      "degree": "Diploma of IT | Software Engineering",
+      "period": "Feb 2019 — Feb 2020"
+    },
+    {
+      "school": "Sydney University, Sydney",
+      "degree": "Agile Project Management & Design Thinking",
+      "period": "Mar 2017 — Jun 2026"
+    },
+    {
+      "school": "University of Wollongong",
+      "degree": "Bachelors Degree | Major in Marketing",
+      "period": "Mar 2010 — Oct 2014"
+    }
+  ],
+  "skills": {
+    "languages": ["JavaScript", "TypeScript", "HTML & CSS"],
+    "frontend": ["React", "Next.js", "Tailwind CSS"],
+    "backend": ["Node.js", "PostgreSQL", "Sequelize"],
+    "testing": ["Jest", "RTL", "Cypress", "Playwright"],
+    "infrastructure": ["AWS (EC2/S3)", "Google Cloud", "CI/CD Pipelines", "Git"]
+  }
+}

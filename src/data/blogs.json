@@ -1,0 +1,10 @@
+[
+  {
+    "slug": "building-with-astro-5",
+    "title": "Building with Astro 5 and Cloudflare",
+    "date": "May 2026",
+    "description": "A deep dive into the latest features of Astro 5 and how to deploy high-performance sites to the edge.",
+    "tags": ["Astro", "Cloudflare", "Web Performance"],
+    "content": "This is the placeholder content for the Astro 5 blog post."
+  }
+]

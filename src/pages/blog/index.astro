@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import profile from '../../data/profile.json';
+import blogs from '../../data/blogs.json';
+
+const { name } = profile;
+---
+
+<Layout title={`Blog | ${name}`}>
+	<section class="section-container py-24">
+		<h1 class="text-6xl font-bold text-slate-900 mb-12">Blog</h1>
+		<div class="space-y-16">
+			{blogs.map((post) => (
+				<a href={`/blog/${post.slug}`} class="group block">
+					<div class="grid md:grid-cols-[1fr_2fr] gap-8">
+						<div class="text-forest-500 font-mono text-sm pt-1 font-bold uppercase tracking-widest">
+							{post.date}
+						</div>
+						<div class="space-y-4">
+							<h2 class="text-3xl font-bold text-slate-900 group-hover:text-forest-600 transition-colors">
+								{post.title}
+							</h2>
+							<p class="text-slate-600 text-lg leading-relaxed">
+								{post.description}
+							</p>
+							<div class="flex flex-wrap gap-2">
+								{post.tags.map(tag => (
+									<span class="tag">{tag}</span>
+								))}
+							</div>
+						</div>
+					</div>
+				</a>
+			))}
+		</div>
+	</section>
+</Layout>

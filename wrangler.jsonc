@@ -1,0 +1,13 @@
+{
+  "compatibility_date": "2025-05-06",
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  "name": "danielworkman-dev",
+  "main": "./dist/_worker.js/index.js",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

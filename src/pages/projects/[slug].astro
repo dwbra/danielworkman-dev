@@ -1,0 +1,55 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import projects from '../../data/projects.json';
+
+export const prerender = true;
+export async function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<Layout title={`${project.title} | Daniel Workman`}>
+	<section class="section-container py-24">
+		<div class="mb-12">
+			<a href="/projects" class="text-forest-600 hover:text-forest-800 transition-colors font-bold flex items-center gap-2 mb-8">
+				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+				Back to projects
+			</a>
+			
+			<div class="text-forest-500 font-mono text-sm font-bold uppercase tracking-[0.2em] mb-4">
+				{project.company}
+			</div>
+			<h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6">{project.title}</h1>
+			<p class="text-xl md:text-2xl text-slate-600 leading-relaxed max-w-3xl">
+				{project.description}
+			</p>
+		</div>
+
+		<div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-16 border-t border-slate-100 pt-16">
+			<div class="rich-content">
+				<article set:html={project.content} />
+			</div>
+			
+			<div class="space-y-12">
+				<div>
+					<h3 class="text-xs font-bold text-forest-400 uppercase tracking-widest mb-4">Stack</h3>
+					<div class="flex flex-wrap gap-2">
+						{project.tech.map(t => (
+							<span class="tag">{t}</span>
+						))}
+					</div>
+				</div>
+				
+				<div>
+					<h3 class="text-xs font-bold text-forest-400 uppercase tracking-widest mb-4">Timeline</h3>
+					<p class="text-slate-900 font-bold">{project.period}</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>

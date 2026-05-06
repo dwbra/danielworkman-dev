@@ -1,0 +1,175 @@
+---
+import Layout from '../layouts/Layout.astro';
+import profile from '../data/profile.json';
+import projects from '../data/projects.json';
+
+const { name, title, summary, experience, links } = profile;
+
+// Use the first 4 projects from projects.json for the home page
+const featuredProjects = projects.slice(0, 4);
+---
+
+<Layout title={`${name} | ${title}`}>
+	<!-- Hero Section -->
+	<section class="section-container min-h-[75vh] flex flex-col justify-center relative overflow-hidden">
+		<div class="space-y-8">
+			<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-50 border border-forest-100 text-forest-700 text-sm font-bold tracking-wide uppercase">
+				<span class="w-2 h-2 rounded-full bg-forest-500 animate-pulse"></span>
+				Available for new projects
+			</div>
+			
+			<h1 class="text-6xl md:text-8xl font-bold tracking-tighter text-slate-900 leading-[0.9]">
+				I build <span class="text-forest-600">robust systems</span> and ship code that lasts.
+			</h1>
+			
+			<p class="text-xl md:text-2xl text-slate-600 max-w-3xl leading-relaxed">
+				I'm {name}, a {title} based in Sydney. I specialize in building performance-critical web applications with React, Node.js, and Cloudflare.
+			</p>
+			
+			<div class="flex flex-wrap gap-8 pt-4">
+				<a href={links.github} class="nav-link border-b-2 border-forest-100 pb-1 hover:border-forest-600 transition-all text-lg">GitHub</a>
+				<a href={links.linkedin} class="nav-link border-b-2 border-forest-100 pb-1 hover:border-forest-600 transition-all text-lg">LinkedIn</a>
+				<a href="#projects" class="group inline-flex items-center gap-2 text-forest-700 font-bold text-lg">
+					View Work 
+					<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-y-1 transition-transform"><path d="m7 10 5 5 5-5"/></svg>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<!-- Projects Section -->
+	<section id="projects" class="section-container py-24">
+		<div class="flex justify-between items-center mb-16">
+			<h2 class="section-heading mb-0">Featured Projects</h2>
+			<a href="/projects" class="group flex items-center gap-2 text-forest-600 hover:text-forest-800 transition-colors font-bold">
+				All projects
+				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+			</a>
+		</div>
+		
+		<div class="grid grid-cols-1 gap-12">
+			{featuredProjects.map((project) => {
+				const isComingSoon = project.comingSoon ?? false;
+				const ProjectCard = isComingSoon ? 'div' : 'a';
+
+				return (
+				<ProjectCard href={isComingSoon ? undefined : `/projects/${project.slug}`} class:list={[
+					'block relative bg-white border border-slate-100 rounded-3xl p-8 md:p-12 transition-all duration-500',
+					!isComingSoon && 'group hover:border-forest-100 hover:shadow-2xl hover:shadow-forest-900/5'
+				]}>
+					<div class="grid md:grid-cols-[1fr_2.5fr] gap-8 md:gap-16">
+						<div class="space-y-4">
+							<div class="text-forest-500 font-mono text-xs font-bold uppercase tracking-[0.2em]">
+								{project.company}
+							</div>
+							<div class="flex flex-wrap gap-2">
+								{project.tech.slice(0, 3).map(t => (
+									<span class="tag">{t}</span>
+								))}
+							</div>
+						</div>
+						<div class="space-y-6">
+							<h3 class:list={[
+								'text-3xl md:text-4xl font-bold text-slate-900 transition-colors',
+								!isComingSoon && 'group-hover:text-forest-700'
+							]}>
+								{project.title}
+							</h3>
+							<p class="text-slate-600 text-lg md:text-xl leading-relaxed">
+								{project.description}
+							</p>
+						</div>
+					</div>
+				</ProjectCard>
+				);
+			})}
+		</div>
+	</section>
+
+	<!-- Experience/About Section -->
+	<section id="about" class="bg-forest-50/50 py-32 border-y border-forest-100">
+		<div class="section-container">
+			<h2 class="section-heading">The Builder</h2>
+			<div class="grid md:grid-cols-[1fr_2fr] gap-16 md:gap-24">
+				<div class="space-y-8">
+					<div class="aspect-[4/5] rounded-3xl bg-forest-100 overflow-hidden border-2 border-white shadow-xl rotate-2 group hover:rotate-0 transition-transform duration-500 relative">
+						<img 
+							src="/Daniel-Workman.jpg" 
+							alt={name} 
+							class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+						/>
+					</div>
+					<div class="p-6 bg-white rounded-2xl border border-forest-100 shadow-sm">
+						<p class="text-xs font-bold text-forest-400 uppercase tracking-widest mb-2">Based In</p>
+						<p class="text-forest-900 font-bold text-lg">Sydney, Australia</p>
+					</div>
+				</div>
+				<div class="space-y-12">
+					<p class="text-2xl md:text-3xl text-slate-800 font-medium leading-relaxed italic border-l-4 border-forest-500 pl-8">
+						"{summary}"
+					</p>
+					
+					<div class="space-y-12">
+						<h3 class="text-2xl font-bold text-forest-900">Career Timeline</h3>
+						<div class="space-y-12">
+							{experience.map(job => (
+								<div class="group">
+									<div class="flex justify-between items-baseline mb-2">
+										<h4 class="text-xl font-bold text-slate-900">{job.company}</h4>
+										<span class="text-sm font-mono text-forest-500 font-bold">{job.period}</span>
+									</div>
+									<p class="text-forest-700 font-semibold mb-3">{job.role}</p>
+									<p class="text-slate-600 leading-relaxed">{job.description}</p>
+								</div>
+							))}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Contact Section -->
+	<section id="contact" class="section-container py-32">
+		<div class="bg-forest-900 rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden shadow-2xl">
+			<!-- Background patterns -->
+			<div class="absolute top-0 right-0 w-64 h-64 bg-forest-800 rounded-full -mr-32 -mt-32 opacity-50"></div>
+			
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 relative z-10">
+				<div class="space-y-8">
+					<h2 class="text-5xl md:text-6xl font-bold leading-tight text-white">
+						Ready to <span class="text-forest-400 underline decoration-forest-500 underline-offset-8">scale?</span>
+					</h2>
+					<p class="text-forest-100 text-xl leading-relaxed max-w-md">
+						I'm currently looking for a new role. I'd love to hear more about any opportunities you may have.
+					</p>
+					<div class="flex gap-8 pt-4">
+						<a href={links.linkedin} class="text-forest-300 hover:text-white transition-colors font-bold border-b border-forest-700 pb-1">LinkedIn</a>
+						<a href={links.github} class="text-forest-300 hover:text-white transition-colors font-bold border-b border-forest-700 pb-1">GitHub</a>
+					</div>
+				</div>
+
+				<form action="/api/contact" method="POST" class="bg-white/10 backdrop-blur-md rounded-3xl p-8 space-y-6 border border-white/10">
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+						<div>
+							<label for="name" class="block text-xs font-bold text-forest-200 uppercase tracking-widest mb-2">Name</label>
+							<input type="text" id="name" name="name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-forest-400 transition-colors" placeholder="Jane Doe" />
+						</div>
+						<div>
+							<label for="email" class="block text-xs font-bold text-forest-200 uppercase tracking-widest mb-2">Email</label>
+							<input type="email" id="email" name="email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-forest-400 transition-colors" placeholder="jane@example.com" />
+						</div>
+					</div>
+					<div>
+						<label for="message" class="block text-xs font-bold text-forest-200 uppercase tracking-widest mb-2">Message</label>
+						<textarea id="message" name="message" rows="4" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-forest-400 transition-colors" placeholder="What are we building?"></textarea>
+					</div>
+					<button type="submit" class="group w-full px-8 py-5 bg-white text-forest-900 rounded-xl font-bold text-lg hover:bg-forest-50 transition-all flex items-center justify-center gap-2">
+						Send Message
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+					</button>
+				</form>
+			</div>
+		</div>
+	</section>
+</Layout>

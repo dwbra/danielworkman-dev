@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import profile from '../../data/profile.json';
+import projects from '../../data/projects.json';
+
+const { name } = profile;
+---
+
+<Layout title={`Projects | ${name}`}>
+	<section class="section-container py-24">
+		<h1 class="text-6xl font-bold text-slate-900 mb-12">All Projects</h1>
+		<div class="grid grid-cols-1 gap-12">
+			{projects.map((project) => {
+				const isComingSoon = project.comingSoon ?? false;
+				const ProjectCard = isComingSoon ? 'div' : 'a';
+
+				return (
+				<ProjectCard href={isComingSoon ? undefined : `/projects/${project.slug}`} class:list={[
+					'block relative bg-white border border-slate-100 rounded-3xl p-8 md:p-12 transition-all duration-500',
+					!isComingSoon && 'group hover:border-forest-100 hover:shadow-2xl hover:shadow-forest-900/5'
+				]}>
+					<div class="grid md:grid-cols-[1fr_2.5fr] gap-8 md:gap-16">
+						<div class="space-y-4">
+							<div class="text-forest-500 font-mono text-xs font-bold uppercase tracking-[0.2em]">
+								{project.company}
+							</div>
+							<div class="flex flex-wrap gap-2">
+								{project.tech.map(t => (
+									<span class="tag">{t}</span>
+								))}
+							</div>
+						</div>
+						<div class="space-y-6">
+							<h2 class:list={[
+								'text-3xl md:text-4xl font-bold text-slate-900 transition-colors',
+								!isComingSoon && 'group-hover:text-forest-700'
+							]}>
+								{project.title}
+							</h2>
+							<p class="text-slate-600 text-lg md:text-xl leading-relaxed">
+								{project.description}
+							</p>
+						</div>
+					</div>
+				</ProjectCard>
+				);
+			})}
+		</div>
+	</section>
+</Layout>
